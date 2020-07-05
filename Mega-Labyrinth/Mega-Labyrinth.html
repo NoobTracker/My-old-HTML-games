@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title></title>
+<meta name="author" content="Pepe">
+<meta name="editor" content="html-editor phase 5">
+</head>
+<script language="JavaScript">
+var mauern = "1111110111100001110110110000011000111111101011000110100001111001111001110000001101111110010000001121";
+var reihenlange = 10;
+var x = 8;
+var y = 1;
+var elemente;
+var zeit;
+for(i = 0;i < mauern.length;i++){
+  window.document.write("<img src=\"0.jpg\"\">");
+  if(i % reihenlange == reihenlange - 1){
+    window.document.write("<br>");
+  }
+}
+elemente = document.getElementsByTagName("img");
+pos();
+function pos(){
+  for(i = 0;i < mauern.length;i++){
+    elemente[i].src = "0.jpg";
+  }
+  elemente[x + y * reihenlange].src = "3.jpg";
+  for(i = 0;i < mauern.length;i++){
+    var distanz = dist(i);
+    if(mauern[i] == 1){
+      if(distanz == 1){
+        elemente[i].src = "2.jpg";
+      }
+      else if(distanz < 2){
+        elemente[i].src = "1.jpg";
+      }
+    }
+    if(mauern[i] == 2 && distanz <= 2){
+      elemente[i].src = "4.jpg";
+    }
+  }
+}
+function dist(i){
+  var mauerX = i % reihenlange;
+  var mauerY = (i - mauerX) / reihenlange;
+  var xDif = x - mauerX;
+  var yDif = y - mauerY;
+  return Math.sqrt(xDif * xDif + yDif * yDif);
+}
+function posVerschieben(xAndern, yAndern){
+  if(zeit == undefined){
+     zeit = Date.now();
+  }
+  if(mauern[x + y * reihenlange] != 2){
+    var newX = x + xAndern;
+    var newY = y + yAndern;
+    if(mauern[newX + newY * reihenlange] != 1){
+      x = newX;
+      y = newY;
+      pos();
+    }
+    if(mauern[newX + newY * reihenlange] == 2){
+      x = newX;
+      y = newY;
+      pos();
+      elemente[x + y * reihenlange].src = "5.jpg";
+      var sec = parseInt((Date.now() - zeit) / 100) / 10;
+      alert("Du hast es in " + sec + " sec. geschafft!\nNochmal?")
+      window.location.href = "Mega-Labyrinth.html";
+    }
+  }
+}
+function oben(){
+  posVerschieben(0, -1);
+}
+function unten(){
+  posVerschieben(0, 1);
+}
+function rechts(){
+  posVerschieben(1, 0);
+}
+function links(){
+  posVerschieben(-1, 0);
+}
+</script>
+<body bgcolor="#000000" style="font-family:Arial" link="#000000" alink="#000000" vlink="#000000">
+<br><br><br>
+<img src="leer.jpg">
+<a href="JavaScript:oben()"><img src="oben.jpg"></a><br>
+<a href="JavaScript:links()"><img src="links.jpg"></a>
+<a href="JavaScript:unten()"><img src="unten.jpg"></a>
+<a href="JavaScript:rechts()"><img src="rechts.jpg"></a>
+</div>
+</body>
+</html>
